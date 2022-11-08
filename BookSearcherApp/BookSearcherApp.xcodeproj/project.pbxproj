@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		B4A9BF68291A95ED00D309AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF67291A95ED00D309AF /* AppDelegate.swift */; };
 		B4A9BF6A291A95ED00D309AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */; };
-		B4A9BF6C291A95ED00D309AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF6B291A95ED00D309AF /* ViewController.swift */; };
-		B4A9BF6F291A95ED00D309AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4A9BF6D291A95ED00D309AF /* Main.storyboard */; };
 		B4A9BF71291A95F000D309AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4A9BF70291A95F000D309AF /* Assets.xcassets */; };
 		B4A9BF74291A95F000D309AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4A9BF72291A95F000D309AF /* LaunchScreen.storyboard */; };
 		B4A9BF7F291A95F000D309AF /* BookSearcherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF7E291A95F000D309AF /* BookSearcherAppTests.swift */; };
@@ -39,11 +37,9 @@
 		B4A9BF64291A95ED00D309AF /* BookSearcherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookSearcherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A9BF67291A95ED00D309AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B4A9BF6B291A95ED00D309AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B4A9BF6E291A95ED00D309AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B4A9BF70291A95F000D309AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B4A9BF73291A95F000D309AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B4A9BF75291A95F000D309AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B4A9BF75291A95F000D309AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = BookSearcherApp/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		B4A9BF7A291A95F000D309AF /* BookSearcherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSearcherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A9BF7E291A95F000D309AF /* BookSearcherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearcherAppTests.swift; sourceTree = "<group>"; };
 		B4A9BF84291A95F000D309AF /* BookSearcherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSearcherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,13 +95,10 @@
 		B4A9BF66291A95ED00D309AF /* BookSearcherApp */ = {
 			isa = PBXGroup;
 			children = (
-				B4A9BF67291A95ED00D309AF /* AppDelegate.swift */,
-				B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */,
-				B4A9BF6B291A95ED00D309AF /* ViewController.swift */,
-				B4A9BF6D291A95ED00D309AF /* Main.storyboard */,
-				B4A9BF70291A95F000D309AF /* Assets.xcassets */,
-				B4A9BF72291A95F000D309AF /* LaunchScreen.storyboard */,
-				B4A9BF75291A95F000D309AF /* Info.plist */,
+				B4A9BF99291A996E00D309AF /* BookDetail */,
+				B4A9BF98291A996500D309AF /* BookList */,
+				B4A9BF9A291A998000D309AF /* Network */,
+				B4A9BF97291A98C400D309AF /* Resources */,
 			);
 			path = BookSearcherApp;
 			sourceTree = "<group>";
@@ -125,6 +118,39 @@
 				B4A9BF8A291A95F000D309AF /* BookSearcherAppUITestsLaunchTests.swift */,
 			);
 			path = BookSearcherAppUITests;
+			sourceTree = "<group>";
+		};
+		B4A9BF97291A98C400D309AF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B4A9BF67291A95ED00D309AF /* AppDelegate.swift */,
+				B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */,
+				B4A9BF70291A95F000D309AF /* Assets.xcassets */,
+				B4A9BF72291A95F000D309AF /* LaunchScreen.storyboard */,
+				B4A9BF75291A95F000D309AF /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B4A9BF98291A996500D309AF /* BookList */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BookList;
+			sourceTree = "<group>";
+		};
+		B4A9BF99291A996E00D309AF /* BookDetail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BookDetail;
+			sourceTree = "<group>";
+		};
+		B4A9BF9A291A998000D309AF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +259,6 @@
 			files = (
 				B4A9BF74291A95F000D309AF /* LaunchScreen.storyboard in Resources */,
 				B4A9BF71291A95F000D309AF /* Assets.xcassets in Resources */,
-				B4A9BF6F291A95ED00D309AF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +283,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4A9BF6C291A95ED00D309AF /* ViewController.swift in Sources */,
 				B4A9BF68291A95ED00D309AF /* AppDelegate.swift in Sources */,
 				B4A9BF6A291A95ED00D309AF /* SceneDelegate.swift in Sources */,
 			);
@@ -297,14 +321,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B4A9BF6D291A95ED00D309AF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B4A9BF6E291A95ED00D309AF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B4A9BF72291A95F000D309AF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -441,12 +457,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BFFWUZ89CF;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BookSearcherApp/Info.plist;
+				INFOPLIST_FILE = BookSearcherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,7 +472,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -469,12 +485,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BFFWUZ89CF;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BookSearcherApp/Info.plist;
+				INFOPLIST_FILE = BookSearcherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -484,7 +500,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
