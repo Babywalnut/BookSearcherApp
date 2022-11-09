@@ -19,6 +19,7 @@
 		B4A9BF9C291B372100D309AF /* BookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF9B291B372100D309AF /* BookListViewController.swift */; };
 		B4A9BF9E291B382500D309AF /* BookListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF9D291B382500D309AF /* BookListViewModel.swift */; };
 		B4A9BFA2291B38B900D309AF /* BookSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BFA1291B38B900D309AF /* BookSearchUseCase.swift */; };
+		B4A9BFA4291B4AEA00D309AF /* NetworkRequestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BFA3291B4AEA00D309AF /* NetworkRequestRouter.swift */; };
 		ED9B212B7F02BBBD3C8ABA5B /* Pods_BookSearcherAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D550A39538C33BA9888596 /* Pods_BookSearcherAppTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		B4A9BF9B291B372100D309AF /* BookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListViewController.swift; sourceTree = "<group>"; };
 		B4A9BF9D291B382500D309AF /* BookListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListViewModel.swift; sourceTree = "<group>"; };
 		B4A9BFA1291B38B900D309AF /* BookSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchUseCase.swift; sourceTree = "<group>"; };
+		B4A9BFA3291B4AEA00D309AF /* NetworkRequestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestRouter.swift; sourceTree = "<group>"; };
 		DAA7A36729404F86F2BD51D9 /* Pods-BookSearcherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSearcherApp.release.xcconfig"; path = "Target Support Files/Pods-BookSearcherApp/Pods-BookSearcherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,7 +105,6 @@
 				82C7D72B999050852907A3D3 /* Pods-BookSearcherAppTests.debug.xcconfig */,
 				2F5DC64DE01ECA1A5993FB37 /* Pods-BookSearcherAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -198,6 +199,7 @@
 		B4A9BF9A291A998000D309AF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				B4A9BFA3291B4AEA00D309AF /* NetworkRequestRouter.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -462,6 +464,7 @@
 				B4A9BF9E291B382500D309AF /* BookListViewModel.swift in Sources */,
 				B4A9BF6A291A95ED00D309AF /* SceneDelegate.swift in Sources */,
 				B4A9BF9C291B372100D309AF /* BookListViewController.swift in Sources */,
+				B4A9BFA4291B4AEA00D309AF /* NetworkRequestRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
