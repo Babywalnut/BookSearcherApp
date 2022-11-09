@@ -15,9 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let windowScene = (scene as? UIWindowScene) else { return }
 
     let window = UIWindow(windowScene: windowScene)
-    window.rootViewController = UIViewController()
+    window.rootViewController = createdNavigationController()
     window.makeKeyAndVisible()
     self.window = window
+  }
+
+  func createdNavigationController() -> UINavigationController {
+    let navigationController = UINavigationController(rootViewController: BookListViewController())
+
+    return navigationController
   }
 }
 
