@@ -17,6 +17,7 @@ class BookListViewCell: UITableViewCell {
   // MARK: Properties
 
   static let identifier = "BookListViewCell"
+  private var contentsViews = [ContentsLabel]()
 
   // MARK: LifeCycles
 
@@ -34,7 +35,7 @@ class BookListViewCell: UITableViewCell {
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.bookImageView.image = nil
+    self.bookImageView.image = UIImage(systemName: "star")
   }
 
   private func configure() {
@@ -46,6 +47,7 @@ class BookListViewCell: UITableViewCell {
     self.bookImageView.do {
       $0.layer.masksToBounds = true
       $0.contentMode = .scaleAspectFit
+      $0.image = UIImage(systemName: "star")
     }
 
     self.bookInfoStackView.do {
@@ -77,7 +79,24 @@ class BookListViewCell: UITableViewCell {
     }
 
     ContentType.allCases.forEach {
-      self.bookInfoStackView.addArrangedSubview($0.contentsView)
+      let contentsView = $0.contentsView
+      self.bookInfoStackView.addArrangedSubview(contentsView)
+      self.contentsViews.append(contentsView)
+    }
+  }
+
+  func setData(item: BookListCellData) {
+    ContentType.allCases.forEach { type in
+      let contentsView = self.contentsViews[type.rawValue]
+
+      switch type {
+      case .title:
+        contentsView.text = item.title
+      case .authors:
+        contentsView.text = item.authors?.joined(separator: ", ")
+      case .publishedDate:
+        contentsView.text = item.publishedDate
+      }
     }
   }
 }
@@ -85,14 +104,14 @@ class BookListViewCell: UITableViewCell {
 enum ContentType: Int, CaseIterable {
 
   case title
-  case description
+  case authors
   case publishedDate
 
   var contentsView: ContentsLabel {
     switch self {
     case .title:
       return ContentsLabel(textColor: .black, fontSize: 20, weight: .bold)
-    case .description:
+    case .authors:
       return ContentsLabel(textColor: .gray, fontSize: 15, weight: .regular)
     case .publishedDate:
       return ContentsLabel(textColor: .gray, fontSize: 12, weight: .regular)
