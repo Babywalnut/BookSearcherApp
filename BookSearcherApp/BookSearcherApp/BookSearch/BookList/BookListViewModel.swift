@@ -22,6 +22,8 @@ class BookListViewModel: BookListViewModelLogic {
   var pageNumber: BehaviorRelay<Int>
   var disposeBag = DisposeBag()
 
+  // MARK: Initializer
+
   init(useCase: BookSearchUseCase) {
     self.inputText = BehaviorRelay<String>(value: "")
     self.pageNumber = BehaviorRelay<Int>(value: 1)
@@ -46,5 +48,8 @@ class BookListViewModel: BookListViewModelLogic {
 
     let volumeInfo = volumes
       .map(useCase.volumeInfo)
+
+    let bookListCellData = volumeInfo
+      .map(useCase.bookListCellData)
   }
 }

@@ -9,7 +9,11 @@ import RxSwift
 
 class BookSearchUseCase {
 
+  // MARK: Properties
+
   private let network: NetworkManager
+
+  // MARK: Initializer
 
   init(network: NetworkManager) {
     self.network = network
@@ -36,6 +40,18 @@ class BookSearchUseCase {
       .map { volume -> VolumeInfo in
         guard let volumeInfo = volume.volumeInfo else { return VolumeInfo() }
         return volumeInfo
+      }
+  }
+
+  func bookListCellData(with volumeInfo: [VolumeInfo]) -> [BookListCellData] {
+    return volumeInfo
+      .map {
+        return BookListCellData(
+          title: $0.title,
+          authors: $0.authors,
+          publishedDate: $0.publishedDate,
+          thumbnailURL: $0.imageLinks?.thumbnail
+        )
       }
   }
 }
