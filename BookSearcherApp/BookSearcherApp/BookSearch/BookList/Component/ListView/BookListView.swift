@@ -19,6 +19,7 @@ class BookListView: UITableView {
     super.init(frame: frame, style: style)
 
     self.configure()
+    self.layout()
   }
 
   required init?(coder: NSCoder) {
