@@ -12,6 +12,8 @@ protocol BookListViewModelLogic {
 
   var inputText: BehaviorRelay<String> { get }
   var pageNumber: BehaviorRelay<Int> { get }
+
+  var bookListCellSection: BehaviorRelay<[BookListCellSection]> { get set }
 }
 
 class BookListViewModel: BookListViewModelLogic {
@@ -21,6 +23,8 @@ class BookListViewModel: BookListViewModelLogic {
   var inputText: BehaviorRelay<String>
   var pageNumber: BehaviorRelay<Int>
   var disposeBag = DisposeBag()
+
+  var bookListCellSection = BehaviorRelay<[BookListCellSection]>(value: [])
 
   // MARK: Initializer
 
@@ -35,7 +39,7 @@ class BookListViewModel: BookListViewModelLogic {
       .disposed(by: self.disposeBag)
 
 
-    let fetchedBookData = Observable.zip(self.inputText, self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
+    let fetchedBookData = Observable.zip(self.inputText.skip(1), self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
       return useCase.fetchBookData(keyword: text, page: page)
     }
       .flatMap { $0 }
@@ -51,5 +55,16 @@ class BookListViewModel: BookListViewModelLogic {
 
     let bookListCellData = volumeInfo
       .map(useCase.bookListCellData)
+
+    bookListCellData
+      .map {
+        if self.pageNumber.value == 1 {
+          return [BookListCellSection(items: $0)]
+        } else {
+          return self.bookListCellSection.value + [BookListCellSection(items: $0)]
+        }
+      }
+      .bind(to: self.bookListCellSection)
+      .disposed(by: self.disposeBag)
   }
 }

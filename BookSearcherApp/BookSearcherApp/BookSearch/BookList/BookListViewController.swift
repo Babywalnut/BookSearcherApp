@@ -5,6 +5,7 @@
 //  Created by 김민성 on 2022/11/09.
 //
 
+import RxDataSources
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -29,7 +30,6 @@ class BookListViewController: UIViewController {
     let useCase = BookSearchUseCase(network: network)
     self.viewModel = BookListViewModel(useCase: useCase)
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
   }
 
   required init?(coder: NSCoder) {
@@ -41,6 +41,7 @@ class BookListViewController: UIViewController {
 
     self.configure()
     self.layout()
+    self.bind()
   }
 
   private func configure() {
@@ -67,6 +68,20 @@ class BookListViewController: UIViewController {
       .withLatestFrom(self.bookListSearchBar.rx.text.orEmpty)
       .distinctUntilChanged()
       .bind(to: self.viewModel.inputText)
+      .disposed(by: self.disposeBag)
+
+    let dataSource = RxTableViewSectionedReloadDataSource<BookListCellSection> { data, tableView, indexPath, item in
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: BookListViewCell.identifier, for: indexPath) as? BookListViewCell else {
+        return BookListViewCell()
+      }
+
+      cell.setData(item: item)
+      return cell
+    }
+
+    self.viewModel.bookListCellSection
+      .skip(1)
+      .bind(to: self.bookListView.rx.items(dataSource: dataSource))
       .disposed(by: self.disposeBag)
   }
 }

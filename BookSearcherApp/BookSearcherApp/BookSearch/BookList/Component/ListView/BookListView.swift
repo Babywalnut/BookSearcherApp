@@ -32,7 +32,8 @@ class BookListView: UITableView {
   }
 
   private func layout() {
-    self.addSubview(self.bookListHeaderView)
+    self.tableHeaderView = self.bookListHeaderView
+    
 
     self.bookListHeaderView.snp.makeConstraints {
       $0.leading.top.trailing.equalToSuperview()
