@@ -75,6 +75,28 @@ class BookListViewCell: UITableViewCell {
       $0.trailing.equalToSuperview().inset(10)
       $0.top.bottom.equalTo(self.bookImageView)
     }
+
+    ContentType.allCases.forEach {
+      self.bookInfoStackView.addArrangedSubview($0.contentsView)
+    }
   }
 }
 
+enum ContentType: Int, CaseIterable {
+
+  case title
+  case description
+  case publishedDate
+
+  var contentsView: ContentsLabel {
+    switch self {
+    case .title:
+      return ContentsLabel(textColor: .black, fontSize: 20, weight: .bold)
+    case .description:
+      return ContentsLabel(textColor: .gray, fontSize: 15, weight: .regular)
+    case .publishedDate:
+      return ContentsLabel(textColor: .gray, fontSize: 12, weight: .regular)
+    }
+
+  }
+}
