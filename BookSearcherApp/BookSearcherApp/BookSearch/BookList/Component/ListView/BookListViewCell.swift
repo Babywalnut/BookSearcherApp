@@ -40,19 +40,20 @@ class BookListViewCell: UITableViewCell {
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.bookImageView.image = UIImage(systemName: "star")
+    self.bookImageView.image = UIImage(systemName: "book")
   }
 
   private func configure() {
     self.accessoryType = .disclosureIndicator
     self.backgroundColor = .white
+    self.selectionStyle = .none
   }
 
   private func attribute() {
     self.bookImageView.do {
       $0.layer.masksToBounds = true
       $0.contentMode = .scaleAspectFit
-      $0.image = UIImage(systemName: "star")
+      $0.tintColor = .black
     }
 
     self.bookInfoStackView.do {
@@ -114,13 +115,18 @@ class BookListViewCell: UITableViewCell {
     ContentType.allCases.forEach { type in
       let contentsView = self.contentsViews[type.rawValue]
 
+      var applyValue: String
+
       switch type {
       case .title:
-        contentsView.text = item.title
+        applyValue = item.title ?? "No Information"
+        contentsView.text = applyValue
       case .authors:
-        contentsView.text = item.authors?.joined(separator: ", ")
+        applyValue = item.authors?.joined(separator: ", ") ?? "No Information"
+        contentsView.text = applyValue
       case .publishedDate:
-        contentsView.text = item.publishedDate
+        applyValue = item.publishedDate ?? "No Information"
+        contentsView.text = applyValue
       }
     }
   }

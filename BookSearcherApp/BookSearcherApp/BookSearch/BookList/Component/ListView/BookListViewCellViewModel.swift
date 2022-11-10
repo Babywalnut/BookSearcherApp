@@ -26,7 +26,7 @@ class BookListViewCellViewModel: BookListViewCellViewModelLogic {
     self.cellImageURL
       .map { link -> UIImage in
         guard let imageLink = link else {
-          return UIImage(systemName: "star")!
+          return UIImage(systemName: "book")!
         }
         let cacheKey = NSString(string: imageLink)
         guard let image = CacheManager.shared.cache.object(forKey: cacheKey) else {
@@ -38,24 +38,3 @@ class BookListViewCellViewModel: BookListViewCellViewModelLogic {
       .disposed(by: self.disposeBag)
   }
 }
-//      .map(useCase.fetchURLImage)
-
-
-
-
-
-//      .map { data -> UIImage in
-//        guard let dummyImage = UIImage(systemName: "star") else {
-//          return UIImage()
-//        }
-//        if data == nil {
-//          return dummyImage
-//        } else {
-//          if let resultImage = UIImage(data: data!) {
-//            return resultImage
-//          }
-//          return dummyImage
-//        }
-//      }
-//      .bind(to: self.cellImageData)
-//      .disposed(by: self.disposeBag)

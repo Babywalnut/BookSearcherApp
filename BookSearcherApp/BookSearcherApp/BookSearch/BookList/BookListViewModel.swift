@@ -14,6 +14,7 @@ protocol BookListViewModelLogic {
   var scrollToRequest: PublishRelay<Bool> { get }
 
   var bookListCellSection: BehaviorRelay<[BookListCellSection]> { get set }
+  var bookListHeaderText: PublishRelay<String> { get set }
 }
 
 class BookListViewModel: BookListViewModelLogic {
@@ -26,6 +27,7 @@ class BookListViewModel: BookListViewModelLogic {
   var disposeBag = DisposeBag()
 
   var bookListCellSection = BehaviorRelay<[BookListCellSection]>(value: [])
+  var bookListHeaderText: PublishRelay<String>
 
   // MARK: Initializer
 
@@ -33,6 +35,7 @@ class BookListViewModel: BookListViewModelLogic {
     self.inputText = PublishRelay<String>()
     self.pageNumber = BehaviorRelay<Int>(value: 1)
     self.scrollToRequest = PublishRelay<Bool>()
+    self.bookListHeaderText = PublishRelay<String>()
 
     self.inputText
       .distinctUntilChanged()
