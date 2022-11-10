@@ -115,13 +115,18 @@ class BookListViewCell: UITableViewCell {
     ContentType.allCases.forEach { type in
       let contentsView = self.contentsViews[type.rawValue]
 
+      var applyValue: String
+
       switch type {
       case .title:
-        contentsView.text = item.title
+        applyValue = item.title ?? "No Information"
+        contentsView.text = applyValue
       case .authors:
-        contentsView.text = item.authors?.joined(separator: ", ")
+        applyValue = item.authors?.joined(separator: ", ") ?? "No Information"
+        contentsView.text = applyValue
       case .publishedDate:
-        contentsView.text = item.publishedDate
+        applyValue = item.publishedDate ?? "No Information"
+        contentsView.text = applyValue
       }
     }
   }
