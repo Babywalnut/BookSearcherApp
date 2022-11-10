@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		122314658644BAD268B4703B /* Pods_BookSearcherApp_BookSearcherAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A782CA094190344B65427038 /* Pods_BookSearcherApp_BookSearcherAppUITests.framework */; };
 		12DCE9DDA92664916EAC7945 /* Pods_BookSearcherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90B38F041FBBB896811D765 /* Pods_BookSearcherApp.framework */; };
+		B40E558B291C91190074813F /* BookListViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40E558A291C91190074813F /* BookListViewCellViewModel.swift */; };
+		B40E558D291CC9B20074813F /* ThumbnailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40E558C291CC9B20074813F /* ThumbnailUseCase.swift */; };
 		B4A9BF68291A95ED00D309AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF67291A95ED00D309AF /* AppDelegate.swift */; };
 		B4A9BF6A291A95ED00D309AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */; };
 		B4A9BF71291A95F000D309AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4A9BF70291A95F000D309AF /* Assets.xcassets */; };
@@ -59,6 +61,8 @@
 		8F693D38D8F6D7835681771E /* Pods-BookSearcherApp-BookSearcherAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookSearcherApp-BookSearcherAppUITests.release.xcconfig"; path = "Target Support Files/Pods-BookSearcherApp-BookSearcherAppUITests/Pods-BookSearcherApp-BookSearcherAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A782CA094190344B65427038 /* Pods_BookSearcherApp_BookSearcherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookSearcherApp_BookSearcherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90B38F041FBBB896811D765 /* Pods_BookSearcherApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookSearcherApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40E558A291C91190074813F /* BookListViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListViewCellViewModel.swift; sourceTree = "<group>"; };
+		B40E558C291CC9B20074813F /* ThumbnailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailUseCase.swift; sourceTree = "<group>"; };
 		B4A9BF64291A95ED00D309AF /* BookSearcherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookSearcherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A9BF67291A95ED00D309AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4A9BF69291A95ED00D309AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -268,9 +272,11 @@
 			isa = PBXGroup;
 			children = (
 				B4A9BFAE291B689700D309AF /* BookListView.swift */,
-				B4A9BFB2291B69A000D309AF /* BookListViewCell.swift */,
 				B4A9BFB7291B729D00D309AF /* BookListHeaderView.swift */,
+				B4A9BFB2291B69A000D309AF /* BookListViewCell.swift */,
 				B4AD8B26291BD45C00865947 /* BookListCellSection.swift */,
+				B40E558A291C91190074813F /* BookListViewCellViewModel.swift */,
+				B40E558C291CC9B20074813F /* ThumbnailUseCase.swift */,
 			);
 			path = ListView;
 			sourceTree = "<group>";
@@ -522,8 +528,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4AD8B27291BD45C00865947 /* BookListCellSection.swift in Sources */,
+				B40E558B291C91190074813F /* BookListViewCellViewModel.swift in Sources */,
 				B4A9BFB8291B729E00D309AF /* BookListHeaderView.swift in Sources */,
 				B4A9BFAD291B4E5200D309AF /* BookListSearchBar.swift in Sources */,
+				B40E558D291CC9B20074813F /* ThumbnailUseCase.swift in Sources */,
 				B4A9BF68291A95ED00D309AF /* AppDelegate.swift in Sources */,
 				B4AD8B25291BCC1600865947 /* BookListCellData.swift in Sources */,
 				B4A9BFAB291B4BBA00D309AF /* APINetworkError.swift in Sources */,

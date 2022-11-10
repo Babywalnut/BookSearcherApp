@@ -7,21 +7,26 @@
 
 import UIKit
 
+import RxSwift
+
 class BookListViewCell: UITableViewCell {
 
   // MARK: Views
 
   let bookImageView = UIImageView()
   let bookInfoStackView = UIStackView()
+  private var contentsViews = [ContentsLabel]()
 
   // MARK: Properties
 
   static let identifier = "BookListViewCell"
-  private var contentsViews = [ContentsLabel]()
+  private let viewModel: BookListViewCellViewModelLogic
+  private let disposeBag = DisposeBag()
 
   // MARK: LifeCycles
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    self.viewModel = BookListViewCellViewModel()
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
     self.configure()
@@ -85,7 +90,26 @@ class BookListViewCell: UITableViewCell {
     }
   }
 
+  func bind(item: BookListCellData) {
+    Observable<String?>.create { observer in
+      observer.onNext(item.thumbnailURL)
+      observer.onCompleted()
+      return Disposables.create()
+    }
+    .subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+      .bind(to: viewModel.cellImageURL)
+      .disposed(by: self.disposeBag)
+
+    viewModel.cellImageData
+      .asDriver(onErrorJustReturn: UIImage())
+      .drive(self.bookImageView.rx.image)
+      .disposed(by: self.disposeBag)
+
+    self.setData(item: item)
+  }
+
   func setData(item: BookListCellData) {
+
     ContentType.allCases.forEach { type in
       let contentsView = self.contentsViews[type.rawValue]
 
