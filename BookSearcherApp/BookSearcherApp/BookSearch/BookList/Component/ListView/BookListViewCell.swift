@@ -101,6 +101,7 @@ class BookListViewCell: UITableViewCell {
       .disposed(by: self.disposeBag)
 
     viewModel.cellImageData
+      .observe(on: MainScheduler.asyncInstance)
       .asDriver(onErrorJustReturn: UIImage())
       .drive(self.bookImageView.rx.image)
       .disposed(by: self.disposeBag)

@@ -24,21 +24,38 @@ class BookListViewCellViewModel: BookListViewCellViewModelLogic {
     self.cellImageData = PublishRelay<UIImage>()
 
     self.cellImageURL
-      .map(useCase.fetchURLImage)
-      .map { data -> UIImage in
-        guard let dummyImage = UIImage(systemName: "star") else {
-          return UIImage()
+      .map { link -> UIImage in
+        guard let imageLink = link else {
+          return UIImage(systemName: "star")!
         }
-        if data == nil {
-          return dummyImage
-        } else {
-          if let resultImage = UIImage(data: data!) {
-            return resultImage
-          }
-          return dummyImage
+        let cacheKey = NSString(string: imageLink)
+        guard let image = CacheManager.shared.cache.object(forKey: cacheKey) else {
+          return useCase.fetchURLImage(link: imageLink)
         }
+        return image
       }
       .bind(to: self.cellImageData)
       .disposed(by: self.disposeBag)
   }
 }
+//      .map(useCase.fetchURLImage)
+
+
+
+
+
+//      .map { data -> UIImage in
+//        guard let dummyImage = UIImage(systemName: "star") else {
+//          return UIImage()
+//        }
+//        if data == nil {
+//          return dummyImage
+//        } else {
+//          if let resultImage = UIImage(data: data!) {
+//            return resultImage
+//          }
+//          return dummyImage
+//        }
+//      }
+//      .bind(to: self.cellImageData)
+//      .disposed(by: self.disposeBag)

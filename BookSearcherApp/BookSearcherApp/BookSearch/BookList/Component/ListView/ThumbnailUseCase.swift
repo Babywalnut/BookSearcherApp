@@ -5,27 +5,24 @@
 //  Created by 김민성 on 2022/11/10.
 //
 
-import Foundation
+import UIKit
 
 class ThumbnailUseCase {
 
   init() { }
 
-  func fetchURLImage(link: String?) -> Data? {
-    guard let link = link else {
-      return nil
-    }
-    let url = URL(string: self.convertedATSURL(link: link))
+  func fetchURLImage(link: String) -> UIImage {
+    guard let dummyImage = UIImage(systemName: "star") else { return UIImage() }
+    let url = URL(string: link)
     if let data = try? Data(contentsOf: url!) {
-      return data
+      guard let image = UIImage(data: data) else {
+        return dummyImage
+      }
+      let cacheKey = NSString(string: link)
+      CacheManager.shared.cache.setObject(image, forKey: cacheKey)
+      return image
     } else {
-      return nil
+      return dummyImage
     }
-  }
-
-  private func convertedATSURL(link: String) -> String {
-    var imageLink = link
-    imageLink.insert("s", at: imageLink.index(imageLink.startIndex, offsetBy: 4))
-    return imageLink
   }
 }
