@@ -70,6 +70,13 @@ class BookListViewController: UIViewController {
       .bind(to: self.viewModel.inputText)
       .disposed(by: self.disposeBag)
 
+    self.bookListSearchBar.rx.searchButtonClicked
+      .bind { [weak self] _ in
+        guard let self = self else { return }
+        self.bookListView.setContentOffset(.zero, animated: true)
+      }
+      .disposed(by: self.disposeBag)
+
     let dataSource = RxTableViewSectionedReloadDataSource<BookListCellSection> { data, tableView, indexPath, item in
       guard let cell = tableView.dequeueReusableCell(withIdentifier: BookListViewCell.identifier, for: indexPath) as? BookListViewCell else {
         return BookListViewCell()
@@ -82,6 +89,21 @@ class BookListViewController: UIViewController {
     self.viewModel.bookListCellSection
       .skip(1)
       .bind(to: self.bookListView.rx.items(dataSource: dataSource))
+      .disposed(by: self.disposeBag)
+
+    self.bookListView.rx.didEndDragging
+      .map { [weak self] _ -> Bool in
+        guard let self = self else { return false }
+        let offsetY = self.bookListView.contentOffset.y
+        let contentHeight = self.bookListView.contentSize.height
+        let height = self.bookListView.frame.size.height
+
+        if offsetY > contentHeight - height {
+          return true
+        }
+        return false
+      }
+      .bind(to: self.viewModel.scrollToRequest)
       .disposed(by: self.disposeBag)
   }
 }
