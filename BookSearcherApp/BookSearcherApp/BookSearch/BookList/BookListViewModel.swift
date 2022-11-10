@@ -9,7 +9,6 @@ import RxSwift
 import RxCocoa
 
 protocol BookListViewModelLogic {
-
   var inputText: PublishRelay<String> { get }
   var pageNumber: BehaviorRelay<Int> { get }
   var scrollToRequest: PublishRelay<Bool> { get }
@@ -48,7 +47,6 @@ class BookListViewModel: BookListViewModelLogic {
       .bind { [weak self] text in
         guard let self = self else { return }
         let lastPageNumber = self.pageNumber.value
-        print(lastPageNumber)
         self.pageNumber.accept(lastPageNumber + 10)
         self.inputText.accept(text)
       }

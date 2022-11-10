@@ -46,12 +46,27 @@ class BookSearchUseCase {
   func bookListCellData(with volumeInfo: [VolumeInfo]) -> [BookListCellData] {
     return volumeInfo
       .map {
+        guard let imageLinks = $0.imageLinks, let thumbnail = imageLinks.thumbnail else {
+          return BookListCellData(
+            title: $0.title,
+            authors: $0.authors,
+            publishedDate: $0.publishedDate,
+            thumbnailURL: nil
+          )
+        }
+        let convertedThumbnailURL = self.convertedATSURL(link: thumbnail)
         return BookListCellData(
           title: $0.title,
           authors: $0.authors,
           publishedDate: $0.publishedDate,
-          thumbnailURL: $0.imageLinks?.thumbnail
+          thumbnailURL: convertedThumbnailURL
         )
       }
+  }
+
+  private func convertedATSURL(link: String) -> String {
+    var imageLink = link
+    imageLink.insert("s", at: imageLink.index(imageLink.startIndex, offsetBy: 4))
+    return imageLink
   }
 }

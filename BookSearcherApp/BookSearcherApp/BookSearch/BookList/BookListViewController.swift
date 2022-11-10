@@ -5,7 +5,6 @@
 //  Created by 김민성 on 2022/11/09.
 //
 
-import RxDataSources
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -30,6 +29,8 @@ class BookListViewController: UIViewController {
     let useCase = BookSearchUseCase(network: network)
     self.viewModel = BookListViewModel(useCase: useCase)
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+    self.bind()
   }
 
   required init?(coder: NSCoder) {
@@ -41,7 +42,6 @@ class BookListViewController: UIViewController {
 
     self.configure()
     self.layout()
-    self.bind()
   }
 
   private func configure() {
@@ -77,34 +77,7 @@ class BookListViewController: UIViewController {
       }
       .disposed(by: self.disposeBag)
 
-    let dataSource = RxTableViewSectionedReloadDataSource<BookListCellSection> { data, tableView, indexPath, item in
-      guard let cell = tableView.dequeueReusableCell(withIdentifier: BookListViewCell.identifier, for: indexPath) as? BookListViewCell else {
-        return BookListViewCell()
-      }
-
-      cell.setData(item: item)
-      return cell
-    }
-
-    self.viewModel.bookListCellSection
-      .skip(1)
-      .bind(to: self.bookListView.rx.items(dataSource: dataSource))
-      .disposed(by: self.disposeBag)
-
-    self.bookListView.rx.didEndDragging
-      .map { [weak self] _ -> Bool in
-        guard let self = self else { return false }
-        let offsetY = self.bookListView.contentOffset.y
-        let contentHeight = self.bookListView.contentSize.height
-        let height = self.bookListView.frame.size.height
-
-        if offsetY > contentHeight - height {
-          return true
-        }
-        return false
-      }
-      .bind(to: self.viewModel.scrollToRequest)
-      .disposed(by: self.disposeBag)
+    self.bookListView.bind(viewModel: self.viewModel)
   }
 }
 
