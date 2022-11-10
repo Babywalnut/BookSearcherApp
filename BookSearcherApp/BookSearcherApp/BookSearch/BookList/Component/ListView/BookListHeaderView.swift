@@ -38,7 +38,6 @@ final class BookListHeaderView: UITableViewHeaderFooterView {
     self.resultLabel.do {
       $0.textColor = .black
       $0.font = .systemFont(ofSize: 16, weight: .regular)
-      $0.text = "전체항목 (0)"
     }
   }
 

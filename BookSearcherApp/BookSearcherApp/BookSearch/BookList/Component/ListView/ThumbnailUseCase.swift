@@ -12,7 +12,7 @@ class ThumbnailUseCase {
   init() { }
 
   func fetchURLImage(link: String) -> UIImage {
-    guard let dummyImage = UIImage(systemName: "star") else { return UIImage() }
+    guard let dummyImage = UIImage(systemName: "book") else { return UIImage() }
     let url = URL(string: link)
     if let data = try? Data(contentsOf: url!) {
       guard let image = UIImage(data: data) else {

@@ -40,19 +40,20 @@ class BookListViewCell: UITableViewCell {
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.bookImageView.image = UIImage(systemName: "star")
+    self.bookImageView.image = UIImage(systemName: "book")
   }
 
   private func configure() {
     self.accessoryType = .disclosureIndicator
     self.backgroundColor = .white
+    self.selectionStyle = .none
   }
 
   private func attribute() {
     self.bookImageView.do {
       $0.layer.masksToBounds = true
       $0.contentMode = .scaleAspectFit
-      $0.image = UIImage(systemName: "star")
+      $0.tintColor = .black
     }
 
     self.bookInfoStackView.do {

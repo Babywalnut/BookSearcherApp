@@ -73,5 +73,19 @@ class BookListView: UITableView {
       }
       .bind(to: viewModel.scrollToRequest)
       .disposed(by: self.disposeBag)
+
+    viewModel.bookListCellSection
+      .map {
+        if $0.isEmpty {
+          return "전체항목(0)"
+        } else {
+          let sectionCount = self.numberOfSections
+          let lastSectionCount = self.numberOfRows(inSection: sectionCount - 1)
+          let cellCount = (sectionCount - 1) * 10 + lastSectionCount
+          return "전체항목(\(cellCount))"
+        }
+      }
+      .bind(to: self.bookListHeaderView.resultLabel.rx.text)
+      .disposed(by: self.disposeBag)
   }
 }
