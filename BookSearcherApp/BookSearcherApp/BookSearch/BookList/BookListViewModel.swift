@@ -10,8 +10,9 @@ import RxCocoa
 
 protocol BookListViewModelLogic {
 
-  var inputText: BehaviorRelay<String> { get }
+  var inputText: PublishRelay<String> { get }
   var pageNumber: BehaviorRelay<Int> { get }
+  var scrollToRequest: PublishRelay<Bool> { get }
 
   var bookListCellSection: BehaviorRelay<[BookListCellSection]> { get set }
 }
@@ -20,8 +21,9 @@ class BookListViewModel: BookListViewModelLogic {
 
   // MARK: Properties
 
-  var inputText: BehaviorRelay<String>
+  var inputText: PublishRelay<String>
   var pageNumber: BehaviorRelay<Int>
+  var scrollToRequest: PublishRelay<Bool>
   var disposeBag = DisposeBag()
 
   var bookListCellSection = BehaviorRelay<[BookListCellSection]>(value: [])
@@ -29,17 +31,30 @@ class BookListViewModel: BookListViewModelLogic {
   // MARK: Initializer
 
   init(useCase: BookSearchUseCase) {
-    self.inputText = BehaviorRelay<String>(value: "")
+    self.inputText = PublishRelay<String>()
     self.pageNumber = BehaviorRelay<Int>(value: 1)
+    self.scrollToRequest = PublishRelay<Bool>()
 
     self.inputText
+      .distinctUntilChanged()
       .bind { _ in
         self.pageNumber.accept(1)
       }
       .disposed(by: self.disposeBag)
 
+    self.scrollToRequest
+      .filter { $0 }
+      .withLatestFrom(self.inputText)
+      .bind { [weak self] text in
+        guard let self = self else { return }
+        let lastPageNumber = self.pageNumber.value
+        print(lastPageNumber)
+        self.pageNumber.accept(lastPageNumber + 10)
+        self.inputText.accept(text)
+      }
+      .disposed(by: self.disposeBag)
 
-    let fetchedBookData = Observable.zip(self.inputText.skip(1), self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
+    let fetchedBookData = Observable.zip(self.inputText, self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
       return useCase.fetchBookData(keyword: text, page: page)
     }
       .flatMap { $0 }
