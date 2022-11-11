@@ -10,6 +10,7 @@ import Alamofire
 enum NetworkRequestRouter: URLRequestConvertible {
 
   case fetchSearchedBookList(keyWord: String, page: Int)
+  case fetchBookDetailInformation(id: String)
 
   private var baseURLString: String {
     return "https://www.googleapis.com/books/v1"
@@ -19,6 +20,8 @@ enum NetworkRequestRouter: URLRequestConvertible {
     switch self {
     case .fetchSearchedBookList(let keyWord, let page):
       return "/volumes?q=\(keyWord)&startIndex=\(String(page))&maxResults=10"
+    case .fetchBookDetailInformation(let id):
+      return "/volumes/\(id)"
     }
   }
 
@@ -34,6 +37,8 @@ enum NetworkRequestRouter: URLRequestConvertible {
 
     switch self {
     case .fetchSearchedBookList:
+      return request
+    case .fetchBookDetailInformation:
       return request
     }
   }

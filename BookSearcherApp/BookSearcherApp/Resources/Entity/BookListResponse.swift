@@ -43,6 +43,7 @@ struct ImageLink: Decodable {
 }
 
 struct SaleInfo: Decodable {
+  var country: String?
   var listPrice: ListPrice?
   var buyLink: String?
 }

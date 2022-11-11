@@ -20,7 +20,7 @@ class BookSearchUseCase {
   }
 
   func fetchBookData(keyword: String, page: Int) -> Single<Result<BookListResponse, APINetworkError>> {
-    return self.network.fetchAllBookData(keyWord: keyword, page: page)
+    return self.network.fetchAllBookData(keyword: keyword, page: page)
   }
 
   func bookListResponse(result: Result<BookListResponse, APINetworkError>) -> BookListResponse? {
