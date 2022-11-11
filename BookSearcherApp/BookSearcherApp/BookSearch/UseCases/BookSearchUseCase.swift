@@ -11,16 +11,16 @@ class BookSearchUseCase {
 
   // MARK: Properties
 
-  private let network: NetworkManager
+  private let network: BookListRepository
 
   // MARK: Initializer
 
-  init(network: NetworkManager) {
-    self.network = network
+  init() {
+    self.network = NetworkManager()
   }
 
   func fetchBookData(keyword: String, page: Int) -> Single<Result<BookListResponse, APINetworkError>> {
-    return self.network.fetchAllBookData(keyWord: keyword, page: page)
+    return self.network.fetchAllBookData(keyword: keyword, page: page)
   }
 
   func bookListResponse(result: Result<BookListResponse, APINetworkError>) -> BookListResponse? {
@@ -35,19 +35,26 @@ class BookSearchUseCase {
     return data
   }
 
-  func volumeInfo(with volumes: [Volume]) -> [VolumeInfo] {
+  func volumeModel(with volumes: [Volume]) -> [ListVolumeModel] {
     return volumes
-      .map { volume -> VolumeInfo in
-        guard let volumeInfo = volume.volumeInfo else { return VolumeInfo() }
-        return volumeInfo
+      .map { volume -> ListVolumeModel in
+        guard let volumeInfo = volume.volumeInfo else { return ListVolumeModel() }
+        return ListVolumeModel(
+          id: volume.id,
+          title: volumeInfo.title,
+          authors: volumeInfo.authors,
+          publishedDate: volumeInfo.publishedDate,
+          imageLinks: volumeInfo.imageLinks
+        )
       }
   }
 
-  func bookListCellData(with volumeInfo: [VolumeInfo]) -> [BookListCellData] {
-    return volumeInfo
+  func bookListCellData(with volumeModel: [ListVolumeModel]) -> [BookListCellData] {
+    return volumeModel
       .map {
         guard let imageLinks = $0.imageLinks, let thumbnail = imageLinks.thumbnail else {
           return BookListCellData(
+            id: $0.id,
             title: $0.title,
             authors: $0.authors,
             publishedDate: $0.publishedDate,
@@ -56,6 +63,7 @@ class BookSearchUseCase {
         }
         let convertedThumbnailURL = self.convertedATSURL(link: thumbnail)
         return BookListCellData(
+          id: $0.id,
           title: $0.title,
           authors: $0.authors,
           publishedDate: $0.publishedDate,

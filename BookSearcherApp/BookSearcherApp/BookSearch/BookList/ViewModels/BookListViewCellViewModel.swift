@@ -15,9 +15,19 @@ protocol BookListViewCellViewModelLogic {
 
 class BookListViewCellViewModel: BookListViewCellViewModelLogic {
 
-  var cellImageURL: PublishRelay<String?>
-  var cellImageData: PublishRelay<UIImage>
+  // MARK: Properties
+
   private let disposeBag = DisposeBag()
+
+  // MARK: Properties(Input)
+
+  var cellImageURL: PublishRelay<String?>
+
+  // MARK: Properties(Output)
+
+  var cellImageData: PublishRelay<UIImage>
+
+  // MARK: Initializer
 
   init(useCase: ThumbnailUseCase = ThumbnailUseCase()) {
     self.cellImageURL = PublishRelay<String?>()

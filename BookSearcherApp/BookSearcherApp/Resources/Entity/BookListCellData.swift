@@ -8,6 +8,7 @@
 import Foundation
 
 struct BookListCellData {
+  var id: String?
   var title: String?
   var authors: [String]?
   var publishedDate: String?
