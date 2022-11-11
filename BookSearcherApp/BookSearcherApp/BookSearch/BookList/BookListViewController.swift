@@ -26,8 +26,7 @@ class BookListViewController: UIViewController {
   // MARK: LifeCycles
 
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    let network = NetworkManager()
-    let useCase = BookSearchUseCase(network: network)
+    let useCase = BookSearchUseCase()
     self.viewModel = BookListViewModel(useCase: useCase)
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
@@ -118,6 +117,16 @@ class BookListViewController: UIViewController {
         }
       }
       .bind(to: self.bookListView.bookListHeaderView.resultLabel.rx.text)
+      .disposed(by: self.disposeBag)
+
+    // MARK: Navigation(push)
+
+    self.bookListView.rx.modelSelected(BookListCellSection.Item.self)
+      .bind {
+        let bookDetailViewModel = BookDetailViewModel(id: $0.id)
+        let bookDetailViewController = BookDetailViewController(viewModel: bookDetailViewModel)
+        self.navigationController?.pushViewController(bookDetailViewController, animated: false)
+      }
       .disposed(by: self.disposeBag)
   }
 }

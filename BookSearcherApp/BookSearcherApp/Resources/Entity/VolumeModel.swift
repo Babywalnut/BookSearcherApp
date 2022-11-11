@@ -7,10 +7,17 @@
 
 import Foundation
 
-struct VolumeModel {
+struct ListVolumeModel {
   var id: String?
   var title: String?
   var authors: [String]?
   var publishedDate: String?
   var imageLinks: ImageLink?
+}
+
+struct DetailVolumeModel {
+  var title: String?
+  var publisher: String?
+  var publishedDate: String?
+  var language: String?
 }

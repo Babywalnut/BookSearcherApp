@@ -13,7 +13,7 @@ protocol BookListRepository {
 }
 
 protocol BookDetailRepository {
-  func fetchAllBookData(id: String) -> Single<Result<Volume,APINetworkError>>
+  func fetchBookDetailData(id: String) -> Single<Result<Volume,APINetworkError>>
 }
 
 struct NetworkManager: BookListRepository, BookDetailRepository {
@@ -43,7 +43,7 @@ struct NetworkManager: BookListRepository, BookDetailRepository {
     return try? JSONDecoder().decode(BookListResponse.self, from: data)
   }
 
-  func fetchAllBookData(id: String) -> Single<Result<Volume,APINetworkError>> {
+  func fetchBookDetailData(id: String) -> Single<Result<Volume,APINetworkError>> {
     return Single.create { observer -> Disposable in
       AF.request(NetworkRequestRouter.fetchBookDetailInformation(id: id))
         .validate()

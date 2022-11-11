@@ -11,12 +11,12 @@ class BookSearchUseCase {
 
   // MARK: Properties
 
-  private let network: NetworkManager
+  private let network: BookListRepository
 
   // MARK: Initializer
 
-  init(network: NetworkManager) {
-    self.network = network
+  init() {
+    self.network = NetworkManager()
   }
 
   func fetchBookData(keyword: String, page: Int) -> Single<Result<BookListResponse, APINetworkError>> {
@@ -35,11 +35,11 @@ class BookSearchUseCase {
     return data
   }
 
-  func volumeModel(with volumes: [Volume]) -> [VolumeModel] {
+  func volumeModel(with volumes: [Volume]) -> [ListVolumeModel] {
     return volumes
-      .map { volume -> VolumeModel in
-        guard let volumeInfo = volume.volumeInfo else { return VolumeModel() }
-        return VolumeModel(
+      .map { volume -> ListVolumeModel in
+        guard let volumeInfo = volume.volumeInfo else { return ListVolumeModel() }
+        return ListVolumeModel(
           id: volume.id,
           title: volumeInfo.title,
           authors: volumeInfo.authors,
@@ -49,7 +49,7 @@ class BookSearchUseCase {
       }
   }
 
-  func bookListCellData(with volumeModel: [VolumeModel]) -> [BookListCellData] {
+  func bookListCellData(with volumeModel: [ListVolumeModel]) -> [BookListCellData] {
     return volumeModel
       .map {
         guard let imageLinks = $0.imageLinks, let thumbnail = imageLinks.thumbnail else {
@@ -63,6 +63,7 @@ class BookSearchUseCase {
         }
         let convertedThumbnailURL = self.convertedATSURL(link: thumbnail)
         return BookListCellData(
+          id: $0.id,
           title: $0.title,
           authors: $0.authors,
           publishedDate: $0.publishedDate,

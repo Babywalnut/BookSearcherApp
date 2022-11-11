@@ -21,7 +21,7 @@ class BookListViewCell: UITableViewCell {
 
   static let identifier = "BookListViewCell"
   private let viewModel: BookListViewCellViewModelLogic
-  private let disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
 
   // MARK: LifeCycles
 
@@ -41,6 +41,7 @@ class BookListViewCell: UITableViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     self.bookImageView.image = UIImage(systemName: "book")
+    self.disposeBag = DisposeBag()
   }
 
   private func configure() {
