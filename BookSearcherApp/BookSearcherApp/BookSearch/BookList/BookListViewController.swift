@@ -5,6 +5,7 @@
 //  Created by 김민성 on 2022/11/09.
 //
 
+import RxDataSources
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -77,7 +78,47 @@ class BookListViewController: UIViewController {
       }
       .disposed(by: self.disposeBag)
 
-    self.bookListView.bind(viewModel: self.viewModel)
+    let dataSource = RxTableViewSectionedReloadDataSource<BookListCellSection> { data, tableView, indexPath, item in
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: BookListViewCell.identifier, for: indexPath) as? BookListViewCell else {
+        return BookListViewCell()
+      }
+      cell.bind(item: item)
+      return cell
+    }
+
+    self.viewModel.bookListCellSection
+      .skip(1)
+      .bind(to: self.bookListView.rx.items(dataSource: dataSource))
+      .disposed(by: self.disposeBag)
+
+    self.bookListView.rx.didEndDragging
+      .map { [weak self] _ -> Bool in
+        guard let self = self else { return false }
+        let offsetY = self.bookListView.contentOffset.y
+        let contentHeight = self.bookListView.contentSize.height
+        let height = self.bookListView.frame.size.height
+
+        if offsetY > contentHeight - height {
+          return true
+        }
+        return false
+      }
+      .bind(to: viewModel.scrollToRequest)
+      .disposed(by: self.disposeBag)
+
+    self.viewModel.bookListCellSection
+      .map {
+        if $0.isEmpty {
+          return "전체항목(0)"
+        } else {
+          let sectionCount = self.bookListView.numberOfSections
+          let lastSectionCount = self.bookListView.numberOfRows(inSection: sectionCount - 1)
+          let cellCount = (sectionCount - 1) * 10 + lastSectionCount
+          return "전체항목(\(cellCount))"
+        }
+      }
+      .bind(to: self.bookListView.bookListHeaderView.resultLabel.rx.text)
+      .disposed(by: self.disposeBag)
   }
 }
 

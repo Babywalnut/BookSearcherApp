@@ -35,19 +35,26 @@ class BookSearchUseCase {
     return data
   }
 
-  func volumeInfo(with volumes: [Volume]) -> [VolumeInfo] {
+  func volumeModel(with volumes: [Volume]) -> [VolumeModel] {
     return volumes
-      .map { volume -> VolumeInfo in
-        guard let volumeInfo = volume.volumeInfo else { return VolumeInfo() }
-        return volumeInfo
+      .map { volume -> VolumeModel in
+        guard let volumeInfo = volume.volumeInfo else { return VolumeModel() }
+        return VolumeModel(
+          id: volume.id,
+          title: volumeInfo.title,
+          authors: volumeInfo.authors,
+          publishedDate: volumeInfo.publishedDate,
+          imageLinks: volumeInfo.imageLinks
+        )
       }
   }
 
-  func bookListCellData(with volumeInfo: [VolumeInfo]) -> [BookListCellData] {
-    return volumeInfo
+  func bookListCellData(with volumeModel: [VolumeModel]) -> [BookListCellData] {
+    return volumeModel
       .map {
         guard let imageLinks = $0.imageLinks, let thumbnail = imageLinks.thumbnail else {
           return BookListCellData(
+            id: $0.id,
             title: $0.title,
             authors: $0.authors,
             publishedDate: $0.publishedDate,

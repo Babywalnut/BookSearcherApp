@@ -19,17 +19,22 @@ protocol BookListViewModelLogic {
 
 class BookListViewModel: BookListViewModelLogic {
 
-  // MARK: Properties
+  // MARK: - Properties
+
+  var disposeBag = DisposeBag()
+
+  // MARK: Properties(Input)
 
   var inputText: PublishRelay<String>
   var pageNumber: BehaviorRelay<Int>
   var scrollToRequest: PublishRelay<Bool>
-  var disposeBag = DisposeBag()
+
+  // MARK: Propertie(Output)
 
   var bookListCellSection = BehaviorRelay<[BookListCellSection]>(value: [])
   var bookListHeaderText: PublishRelay<String>
 
-  // MARK: Initializer
+  // MARK: - Initializer
 
   init(useCase: BookSearchUseCase) {
     self.inputText = PublishRelay<String>()
@@ -66,10 +71,10 @@ class BookListViewModel: BookListViewModelLogic {
     let volumes = fetchedBookData
       .map(useCase.volumes)
 
-    let volumeInfo = volumes
-      .map(useCase.volumeInfo)
+    let volumeModel = volumes
+      .map(useCase.volumeModel)
 
-    let bookListCellData = volumeInfo
+    let bookListCellData = volumeModel
       .map(useCase.bookListCellData)
 
     bookListCellData

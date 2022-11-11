@@ -84,7 +84,7 @@ class BookListViewCell: UITableViewCell {
       $0.top.bottom.equalTo(self.bookImageView)
     }
 
-    ContentType.allCases.forEach {
+    CellContentType.allCases.forEach {
       let contentsView = $0.contentsView
       self.bookInfoStackView.addArrangedSubview(contentsView)
       self.contentsViews.append(contentsView)
@@ -112,7 +112,7 @@ class BookListViewCell: UITableViewCell {
 
   func setData(item: BookListCellData) {
 
-    ContentType.allCases.forEach { type in
+    CellContentType.allCases.forEach { type in
       let contentsView = self.contentsViews[type.rawValue]
 
       var applyValue: String
@@ -129,24 +129,5 @@ class BookListViewCell: UITableViewCell {
         contentsView.text = applyValue
       }
     }
-  }
-}
-
-enum ContentType: Int, CaseIterable {
-
-  case title
-  case authors
-  case publishedDate
-
-  var contentsView: ContentsLabel {
-    switch self {
-    case .title:
-      return ContentsLabel(textColor: .black, fontSize: 20, weight: .bold)
-    case .authors:
-      return ContentsLabel(textColor: .gray, fontSize: 15, weight: .regular)
-    case .publishedDate:
-      return ContentsLabel(textColor: .gray, fontSize: 12, weight: .regular)
-    }
-
   }
 }
