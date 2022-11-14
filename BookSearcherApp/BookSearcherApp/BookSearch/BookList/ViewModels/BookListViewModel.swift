@@ -15,6 +15,8 @@ protocol BookListViewModelLogic {
 
   var bookListCellSection: BehaviorRelay<[BookListCellSection]> { get set }
   var bookListHeaderText: PublishRelay<String> { get set }
+  var showLoadingView: PublishRelay<Bool> { get set }
+  var dismissLoadingView: PublishRelay<Bool> { get set }
 }
 
 class BookListViewModel: BookListViewModelLogic {
@@ -33,6 +35,8 @@ class BookListViewModel: BookListViewModelLogic {
 
   var bookListCellSection = BehaviorRelay<[BookListCellSection]>(value: [])
   var bookListHeaderText: PublishRelay<String>
+  var showLoadingView: PublishRelay<Bool>
+  var dismissLoadingView: PublishRelay<Bool>
 
   // MARK: - Initializer
 
@@ -41,6 +45,8 @@ class BookListViewModel: BookListViewModelLogic {
     self.pageNumber = BehaviorRelay<Int>(value: 1)
     self.scrollToRequest = PublishRelay<Bool>()
     self.bookListHeaderText = PublishRelay<String>()
+    self.showLoadingView = PublishRelay<Bool>()
+    self.dismissLoadingView = PublishRelay<Bool>()
 
     self.inputText
       .distinctUntilChanged()
@@ -61,6 +67,7 @@ class BookListViewModel: BookListViewModelLogic {
       .disposed(by: self.disposeBag)
 
     let fetchedBookData = Observable.zip(self.inputText, self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
+      self.showLoadingView.accept(true)
       return useCase.fetchBookData(keyword: text, page: page)
     }
       .flatMap { $0 }
@@ -79,6 +86,7 @@ class BookListViewModel: BookListViewModelLogic {
 
     bookListCellData
       .map {
+        self.dismissLoadingView.accept(true)
         if self.pageNumber.value == 1 {
           return [BookListCellSection(items: $0)]
         } else {
