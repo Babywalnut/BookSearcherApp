@@ -71,7 +71,8 @@ class BookListViewController: UIViewController {
       .disposed(by: self.disposeBag)
 
     self.bookListSearchBar.rx.searchButtonClicked
-      .bind { [weak self] _ in
+      .asSignal()
+      .emit { [weak self] _ in
         guard let self = self else { return }
         self.bookListView.setContentOffset(.zero, animated: true)
       }
