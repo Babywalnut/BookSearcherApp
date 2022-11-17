@@ -91,6 +91,24 @@ class BookListViewController: UIViewController {
       .bind(to: self.bookListView.rx.items(dataSource: dataSource))
       .disposed(by: self.disposeBag)
 
+    self.viewModel.showLoadingView
+      .asDriver(onErrorJustReturn: false)
+      .filter { $0 }
+      .drive { [weak self] _ in
+        guard let self = self else { return }
+        self.showLoadingView()
+      }
+      .disposed(by: self.disposeBag)
+
+    self.viewModel.dismissLoadingView
+      .asDriver(onErrorJustReturn: true)
+      .filter { $0 }
+      .drive { [weak self] _ in
+        guard let self = self else { return }
+        self.dismissLoadingView()
+      }
+      .disposed(by: self.disposeBag)
+
     self.bookListView.rx.didEndDragging
       .map { [weak self] _ -> Bool in
         guard let self = self else { return false }
