@@ -11,6 +11,7 @@ import RxRelay
 protocol BookDetailViewModelLogic {
   var detailViewData: PublishRelay<DetailVolumeModel> { get set }
   var imageData: PublishRelay<UIImage> { get set }
+  var dismissLoadingView: PublishRelay<Bool> { get set }
 }
 
 class BookDetailViewModel: BookDetailViewModelLogic {
@@ -23,12 +24,14 @@ class BookDetailViewModel: BookDetailViewModelLogic {
 
   var detailViewData: PublishRelay<DetailVolumeModel>
   var imageData: PublishRelay<UIImage>
+  var dismissLoadingView: PublishRelay<Bool>
 
   // MARK: Initializer
 
   init(useCase: BookInformationUseCase = BookInformationUseCase(), id: String?) {
     self.detailViewData = PublishRelay<DetailVolumeModel>()
     self.imageData = PublishRelay<UIImage>()
+    self.dismissLoadingView = PublishRelay<Bool>()
 
     let volume = Observable<String?>.just(id)
       .filter {
@@ -43,6 +46,12 @@ class BookDetailViewModel: BookDetailViewModelLogic {
     volume
       .map(useCase.volumeModel)
       .bind(to: self.detailViewData)
+      .disposed(by: self.disposeBag)
+
+    volume
+      .bind { _ in
+        self.dismissLoadingView.accept(true)
+      }
       .disposed(by: self.disposeBag)
 
     let volumeImageURL = volume

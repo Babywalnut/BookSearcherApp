@@ -72,7 +72,9 @@ class BookListViewModel: BookListViewModelLogic {
     }
       .flatMap { $0 }
       .map(useCase.bookListResponse)
-      .filter { $0 != nil }
+      .filter {
+        self.dismissLoadingView.accept(true)
+        return $0 != nil }
       .map { $0! }
 
     let volumes = fetchedBookData
@@ -86,7 +88,6 @@ class BookListViewModel: BookListViewModelLogic {
 
     bookListCellData
       .map {
-        self.dismissLoadingView.accept(true)
         if self.pageNumber.value == 1 {
           return [BookListCellSection(items: $0)]
         } else {

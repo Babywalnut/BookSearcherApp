@@ -92,16 +92,18 @@ class BookListViewController: UIViewController {
       .disposed(by: self.disposeBag)
 
     self.viewModel.showLoadingView
+      .asDriver(onErrorJustReturn: false)
       .filter { $0 }
-      .bind { [weak self] _ in
+      .drive { [weak self] _ in
         guard let self = self else { return }
         self.showLoadingView()
       }
       .disposed(by: self.disposeBag)
 
     self.viewModel.dismissLoadingView
+      .asDriver(onErrorJustReturn: true)
       .filter { $0 }
-      .bind { [weak self] _ in
+      .drive { [weak self] _ in
         guard let self = self else { return }
         self.dismissLoadingView()
       }

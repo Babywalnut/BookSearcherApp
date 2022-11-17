@@ -19,7 +19,6 @@ extension UIViewController {
 
     view.addSubview(containerView)
     containerView.addSubview(activityIndicator)
-
     self.configureContainerView()
 
     UIView.animate(withDuration: 0.25) {

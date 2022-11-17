@@ -42,6 +42,12 @@ class BookDetailViewController: UIViewController {
     self.layout()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    self.showLoadingView()
+  }
+
   private func configure() {
     self.view.backgroundColor = .white
   }
@@ -73,6 +79,15 @@ class BookDetailViewController: UIViewController {
     self.viewModel.imageData
       .asDriver(onErrorDriveWith: .never())
       .drive(self.bookImageView.rx.image)
+      .disposed(by: self.disposeBag)
+
+    self.viewModel.dismissLoadingView
+      .asDriver(onErrorJustReturn: false)
+      .filter { $0 }
+      .drive { [weak self] _ in
+        guard let self = self else { return }
+        self.dismissLoadingView()
+      }
       .disposed(by: self.disposeBag)
 
     self.viewModel.detailViewData
