@@ -22,6 +22,7 @@ class BookListViewController: UIViewController {
 
   private let bookListSearchBar = BookListSearchBar()
   private let bookListView = BookListView()
+  private let emptyDataView = EmptyDataView()
 
   // MARK: LifeCycles
 
@@ -50,11 +51,21 @@ class BookListViewController: UIViewController {
 
   private func layout() {
     self.navigationItem.titleView = bookListSearchBar
-    self.view.addSubview(self.bookListView)
+
+    [
+      self.bookListView,
+      self.emptyDataView
+    ].forEach {
+      self.view.addSubview($0)
+    }
 
     self.bookListView.snp.makeConstraints {
       $0.leading.trailing.bottom.equalToSuperview()
       $0.top.equalTo(self.view.safeAreaLayoutGuide)
+    }
+
+    self.emptyDataView.snp.makeConstraints {
+      $0.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
     }
   }
 
@@ -123,6 +134,14 @@ class BookListViewController: UIViewController {
       }
       .bind(to: viewModel.scrollToRequest)
       .disposed(by: self.disposeBag)
+
+    self.viewModel.emptyState
+      .asDriver(onErrorJustReturn: true)
+      .drive {
+        self.emptyDataView.isHidden = !$0
+      }
+      .disposed(by: self.disposeBag)
+
 
     self.viewModel.bookListCellSection
       .map {

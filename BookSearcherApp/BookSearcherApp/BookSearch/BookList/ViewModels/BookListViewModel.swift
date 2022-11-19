@@ -17,6 +17,7 @@ protocol BookListViewModelLogic {
   var bookListHeaderText: PublishRelay<String> { get set }
   var showLoadingView: PublishRelay<Bool> { get set }
   var dismissLoadingView: PublishRelay<Bool> { get set }
+  var emptyState: PublishRelay<Bool> { get set }
 }
 
 class BookListViewModel: BookListViewModelLogic {
@@ -37,7 +38,8 @@ class BookListViewModel: BookListViewModelLogic {
   var bookListHeaderText: PublishRelay<String>
   var showLoadingView: PublishRelay<Bool>
   var dismissLoadingView: PublishRelay<Bool>
-
+  var emptyState: PublishRelay<Bool>
+  
   // MARK: - Initializer
 
   init(useCase: BookSearchUseCase) {
@@ -47,6 +49,7 @@ class BookListViewModel: BookListViewModelLogic {
     self.bookListHeaderText = PublishRelay<String>()
     self.showLoadingView = PublishRelay<Bool>()
     self.dismissLoadingView = PublishRelay<Bool>()
+    self.emptyState = PublishRelay<Bool>()
 
     self.inputText
       .distinctUntilChanged()
@@ -68,13 +71,16 @@ class BookListViewModel: BookListViewModelLogic {
 
     let fetchedBookData = Observable.zip(self.inputText, self.pageNumber.skip(1)) { text, page -> Single<Result<BookListResponse,APINetworkError>> in
       self.showLoadingView.accept(true)
-      return useCase.fetchBookData(keyword: text, page: page)
+      let separatedText = text.split(separator: " ")
+      let joinedText = separatedText.joined(separator: "")
+      return useCase.fetchBookData(keyword: joinedText, page: page)
     }
       .flatMap { $0 }
       .map(useCase.bookListResponse)
       .filter {
         self.dismissLoadingView.accept(true)
-        return $0 != nil }
+        return $0 != nil
+      }
       .map { $0! }
 
     let volumes = fetchedBookData
@@ -89,6 +95,11 @@ class BookListViewModel: BookListViewModelLogic {
     bookListCellData
       .map {
         if self.pageNumber.value == 1 {
+          if $0.count == 0 {
+            self.emptyState.accept(true)
+          } else {
+            self.emptyState.accept(false)
+          }
           return [BookListCellSection(items: $0)]
         } else {
           return self.bookListCellSection.value + [BookListCellSection(items: $0)]
